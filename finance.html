@@ -1685,45 +1685,44 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     </div>
 
     <div class="card-grid" style="gap:10px">
-      <!-- Bank accounts -->
+      <!-- Total Balance (cash, excludes savings) -->
       <div class="card nw-subcard">
-        <div class="label" style="display:flex;justify-content:space-between;align-items:center"><span>🏦 Bank accounts</span><span id="bankTotal" style="font-size:13px;color:var(--text-primary);font-weight:600">0</span></div>
-        <div id="bankList" class="nw-list"></div>
-        <div class="quick-add">
-          <input type="text" placeholder="Account name" id="bankName" />
-          <input type="number" placeholder="Amount" id="bankAmount" step="0.01" />
-          <button class="quick-add-btn" id="bankAddBtn">+</button>
+        <div class="label" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span>💵 Total Balance</span><span id="cashTotal" style="font-size:16px;color:var(--text-primary);font-weight:700;font-variant-numeric:tabular-nums">KWD 0</span></div>
+        <div id="cashTxLog" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;max-height:160px;overflow-y:auto"></div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <input type="number" id="cashTxAmount" placeholder="Amount" step="0.01" min="0" style="flex:1;min-width:80px;padding:7px 10px;border-radius:9px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+          <input type="text" id="cashTxNote" placeholder="Note (optional)" style="flex:2;min-width:90px;padding:7px 10px;border-radius:9px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+          <button id="cashAddBtn" style="padding:7px 12px;border-radius:9px;background:rgba(110,231,183,0.12);border:1px solid rgba(110,231,183,0.3);color:#6ee7b7;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap">+ Add</button>
+          <button id="cashSubBtn" style="padding:7px 12px;border-radius:9px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25);color:#f87171;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap">− Deduct</button>
         </div>
       </div>
-      <!-- Stocks / Investments -->
+      <!-- Gold & Silver -->
       <div class="card nw-subcard">
-        <div class="label" style="display:flex;justify-content:space-between;align-items:center"><span>📈 Stocks / Investments</span><span id="stocksTotal" style="font-size:13px;color:var(--text-primary);font-weight:600">0</span></div>
-        <div id="stocksList" class="nw-list"></div>
-        <div class="quick-add">
-          <input type="text" placeholder="Stock / fund" id="stocksName" />
-          <input type="number" placeholder="Value" id="stocksAmount" step="0.01" />
-          <button class="quick-add-btn" id="stocksAddBtn">+</button>
+        <div class="label" style="display:flex;justify-content:space-between;align-items:center"><span>🏅 Gold &amp; Silver</span><span id="goldSilverTotal" style="font-size:13px;color:var(--text-primary);font-weight:600">0</span></div>
+        <div id="goldPriceInfo" style="font-size:11px;color:var(--text-tertiary);margin-bottom:8px;font-variant-numeric:tabular-nums"></div>
+        <div id="goldSilverList" class="nw-list"></div>
+        <div class="quick-add" style="display:grid;grid-template-columns:1fr 72px 62px auto;gap:6px">
+          <input type="text" placeholder="Label (e.g. ring)" id="gsLabel" />
+          <input type="number" placeholder="Grams" id="gsGrams" step="0.1" min="0" />
+          <select id="gsMetal" style="padding:6px 6px;border:0.5px solid var(--border);border-radius:var(--radius-md);font-size:12px;font-family:inherit;background:var(--bg-card);color:var(--text-primary)">
+            <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+          </select>
+          <button class="quick-add-btn" id="gsAddBtn">+</button>
         </div>
       </div>
-      <!-- Crypto -->
-      <div class="card nw-subcard">
-        <div class="label" style="display:flex;justify-content:space-between;align-items:center"><span>🪙 Crypto</span><span id="cryptoTotal" style="font-size:13px;color:var(--text-primary);font-weight:600">0</span></div>
-        <div id="cryptoList" class="nw-list"></div>
-        <div class="quick-add">
-          <input type="text" placeholder="Coin / wallet" id="cryptoName" />
-          <input type="number" placeholder="Value" id="cryptoAmount" step="0.01" />
-          <button class="quick-add-btn" id="cryptoAddBtn">+</button>
-        </div>
+      <!-- Savings (read-only mirror) -->
+      <div class="card nw-subcard" style="display:flex;flex-direction:column;gap:10px">
+        <div class="label" style="display:flex;justify-content:space-between;align-items:center"><span>💰 Savings</span><span id="savingsMirrorTotal" style="font-size:13px;color:#6ee7b7;font-weight:700;font-variant-numeric:tabular-nums">0</span></div>
+        <div style="font-size:11px;color:var(--text-tertiary);font-style:italic">Auto-synced from Savings tab. Edit from there.</div>
+        <button id="goToSavingsBtn" style="align-self:flex-start;padding:6px 14px;border-radius:8px;border:1px solid rgba(110,231,183,0.3);background:rgba(110,231,183,0.08);color:#6ee7b7;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;">Go to Savings →</button>
       </div>
-      <!-- Other assets -->
-      <div class="card nw-subcard">
-        <div class="label" style="display:flex;justify-content:space-between;align-items:center"><span>💼 Other assets</span><span id="otherTotal" style="font-size:13px;color:var(--text-primary);font-weight:600">0</span></div>
-        <div id="otherList" class="nw-list"></div>
-        <div class="quick-add">
-          <input type="text" placeholder="Asset name" id="otherName" />
-          <input type="number" placeholder="Value" id="otherAmount" step="0.01" />
-          <button class="quick-add-btn" id="otherAddBtn">+</button>
-        </div>
+      <!-- Finance AI Coach -->
+      <div class="card nw-subcard" style="display:flex;flex-direction:column;gap:10px">
+        <div class="label" style="display:flex;align-items:center;gap:8px"><span>🤖 Finance AI</span></div>
+        <input type="password" id="finAiKey" placeholder="Anthropic API key (sk-ant-…)" style="padding:7px 11px;border-radius:9px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:12px;width:100%">
+        <button id="finAiBtn" style="padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:var(--text-primary);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Get Financial Advice</button>
+        <div id="finAiResponse" style="display:none;font-size:12px;line-height:1.65;color:var(--text-secondary);background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:12px;white-space:pre-wrap"></div>
       </div>
     </div>
   </div>
@@ -1896,6 +1895,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   <div id="savingsEmpty" class="empty-state">No savings pots yet — add one above.</div>
 </div>
 
+<!-- ===== BUSINESS ===== -->
+<div class="section" data-section="business">
+  <div class="section-title"><span class="section-title-text">BUSINESS</span></div>
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(251,191,36,0.07),rgba(248,113,113,0.04));border:1px solid rgba(251,191,36,0.18);margin-bottom:14px">
+    <div style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.04em;font-weight:500;margin-bottom:4px">Business Balance</div>
+    <div id="bizBalance" style="font-size:32px;font-weight:700;color:var(--text-primary);line-height:1.1">KWD 0</div>
+    <div id="bizStats" style="font-size:11px;color:var(--text-tertiary);margin-top:4px"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--text-tertiary);margin-bottom:10px">+ INCOMING PAYMENT</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="text" id="bizClientName" placeholder="Client / order name" style="flex:2;min-width:130px;padding:8px 11px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+      <input type="number" id="bizInAmount" placeholder="Amount" step="0.01" style="flex:1;min-width:90px;padding:8px 11px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+      <button id="bizAddInBtn" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(110,231,183,0.4);background:rgba(110,231,183,0.1);color:#6ee7b7;font-weight:700;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap;">+ Add</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--text-tertiary);margin-bottom:10px">− WITHDRAW / PAY OUT</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="text" id="bizPayNote" placeholder="Reason (e.g. supplies, partner payout)" style="flex:2;min-width:130px;padding:8px 11px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+      <input type="number" id="bizOutAmount" placeholder="Amount" step="0.01" style="flex:1;min-width:90px;padding:8px 11px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+      <button id="bizWithdrawBtn" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(248,113,113,0.35);background:rgba(248,113,113,0.08);color:#f87171;font-weight:700;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap;">− Withdraw</button>
+    </div>
+  </div>
+
+  <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--text-tertiary);margin-bottom:10px">TRANSACTION LOG</div>
+  <div id="bizTxList"></div>
+  <div id="bizEmpty" class="empty-state">No transactions yet.</div>
+</div>
+
 </div>
 
 <!-- ===== BOTTOM TAB BAR ===== -->
@@ -1919,6 +1951,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   <button class="bot-tab" data-tab="savings">
     <span class="bot-tab-icon">🏦</span>
     <span class="bot-tab-label">Savings</span>
+  </button>
+  <button class="bot-tab" data-tab="business">
+    <span class="bot-tab-icon">💼</span>
+    <span class="bot-tab-label">Business</span>
   </button>
 </nav>
 
@@ -1945,10 +1981,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   // and ORD_FROM_META hasn't been initialized yet.
   // ============================================================
   const ORD_FROM_META = {
-    bank:   { name: 'Bank',   color: '#7DD3FC' },
-    stocks: { name: 'Stocks', color: '#6EE7B7' },
-    crypto: { name: 'Crypto', color: '#FBBF24' },
-    other:  { name: 'Other',  color: '#B794F4' }
+    cash:    { name: 'Cash',    color: '#7DD3FC' },
+    savings: { name: 'Savings', color: '#6EE7B7' },
+    gold:    { name: 'Gold',    color: '#FBBF24' },
+    other:   { name: 'Other',   color: '#B794F4' }
   };
 
   // ============================================================
@@ -1969,23 +2005,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
   tabs.forEach(b => b.addEventListener('click', () => setActiveTab(b.dataset.tab)));
   const savedTab = storeGet(TAB_KEY);
-  setActiveTab(savedTab && ['net','subs','incoming','wish','savings'].includes(savedTab) ? savedTab : 'net');
+  setActiveTab(savedTab && ['net','subs','incoming','wish','savings','business'].includes(savedTab) ? savedTab : 'net');
 
   // ============================================================
   // NET WORTH (copied from the main dashboard, verbatim logic)
   // ============================================================
   const CURRENCY_KEY = 'nw_currency';
-  const NW_CATS = [
-    { key: 'bank',   listId: 'bankList',   totalId: 'bankTotal',   nameId: 'bankName',   amtId: 'bankAmount',   addId: 'bankAddBtn' },
-    { key: 'stocks', listId: 'stocksList', totalId: 'stocksTotal', nameId: 'stocksName', amtId: 'stocksAmount', addId: 'stocksAddBtn' },
-    { key: 'crypto', listId: 'cryptoList', totalId: 'cryptoTotal', nameId: 'cryptoName', amtId: 'cryptoAmount', addId: 'cryptoAddBtn' },
-    { key: 'other',  listId: 'otherList',  totalId: 'otherTotal',  nameId: 'otherName',  amtId: 'otherAmount',  addId: 'otherAddBtn' }
-  ];
+  const NW_CATS = [];
   const currencyEl = document.getElementById('netWorthCurrency');
   const netWorthTotal = document.getElementById('netWorthTotal');
   const netWorthBreakdown = document.getElementById('netWorthBreakdown');
 
   let exchangeRates = { KWD: 0.305, CHF: 1, USD: 1, EUR: 1, GBP: 1 };
+  let goldPricePerGramCHF = 0;
+  let silverPricePerGramCHF = 0;
+
   async function loadExchangeRates() {
     try {
       const res = await fetch('https://open.er-api.com/v6/latest/CHF');
@@ -2001,6 +2035,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         renderAllNetWorth();
         if (typeof renderSubs === 'function') renderSubs();
       }
+    } catch (e) {}
+    try {
+      const [gRes, sRes] = await Promise.all([
+        fetch('https://api.gold-api.com/price/XAU'),
+        fetch('https://api.gold-api.com/price/XAG')
+      ]);
+      const gData = await gRes.json();
+      const sData = await sRes.json();
+      const usdPerCHF = exchangeRates.USD || 1;
+      if (gData && gData.price) goldPricePerGramCHF = (gData.price / 31.1035) / usdPerCHF;
+      if (sData && sData.price) silverPricePerGramCHF = (sData.price / 31.1035) / usdPerCHF;
+      renderAllNetWorth();
     } catch (e) {}
   }
   loadExchangeRates();
@@ -2156,16 +2202,150 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     input.addEventListener('blur', save);
   }
 
+  // ── Cash Balance ──
+  const CASH_KEY = 'nw:cash_txs';
+  function renderCashBalance() {
+    const txs = storeGet(CASH_KEY) || [];
+    const bal = txs.reduce((s, t) => s + (t.type === 'in' ? t.amtCHF : -t.amtCHF), 0);
+    const sym = currencyEl ? currencyEl.value : 'KWD';
+    const rate = exchangeRates[sym] || 1;
+    const el = document.getElementById('cashTotal');
+    if (el) el.textContent = sym + ' ' + (bal * rate).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const log = document.getElementById('cashTxLog');
+    if (log) {
+      log.innerHTML = '';
+      txs.slice().reverse().slice(0, 8).forEach(t => {
+        const isIn = t.type === 'in';
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;justify-content:space-between;font-size:11px;color:var(--text-tertiary);padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.04)';
+        row.innerHTML = '<span>' + (t.note || (isIn ? 'Deposit' : 'Deduction')) + '</span>' +
+          '<span style="color:' + (isIn ? '#6ee7b7' : '#f87171') + ';font-weight:700;font-variant-numeric:tabular-nums">' +
+          (isIn ? '+' : '−') + ' ' + sym + ' ' + ((t.amtCHF || 0) * rate).toFixed(2) + '</span>';
+        log.appendChild(row);
+      });
+    }
+    return Math.max(0, bal);
+  }
+  function cashDoTx(type) {
+    const sym = currencyEl ? currencyEl.value : 'KWD';
+    const rate = exchangeRates[sym] || 1;
+    const v = parseFloat(document.getElementById('cashTxAmount').value);
+    if (isNaN(v) || v <= 0) { document.getElementById('cashTxAmount').focus(); return; }
+    const note = document.getElementById('cashTxNote').value.trim();
+    const txs = storeGet(CASH_KEY) || [];
+    txs.push({ type, amtCHF: v / rate, note, ts: Date.now() });
+    storeSet(CASH_KEY, txs);
+    document.getElementById('cashTxAmount').value = '';
+    document.getElementById('cashTxNote').value = '';
+    renderAllNetWorth();
+  }
+  document.getElementById('cashAddBtn') && document.getElementById('cashAddBtn').addEventListener('click', () => cashDoTx('in'));
+  document.getElementById('cashSubBtn') && document.getElementById('cashSubBtn').addEventListener('click', () => cashDoTx('out'));
+  document.getElementById('cashTxAmount') && document.getElementById('cashTxAmount').addEventListener('keydown', e => { if (e.key === 'Enter') cashDoTx('in'); });
+
+  // ── Gold & Silver ──
+  const GS_KEY = 'nw:gold_silver';
+  function renderGoldSilver() {
+    const items = storeGet(GS_KEY) || [];
+    const sym = currencyEl ? currencyEl.value : 'KWD';
+    const rate = exchangeRates[sym] || 1;
+    let totalCHF = 0;
+    items.forEach(it => {
+      const pCHF = it.metal === 'silver' ? silverPricePerGramCHF : goldPricePerGramCHF;
+      totalCHF += (Number(it.grams) || 0) * pCHF;
+    });
+    const totalEl = document.getElementById('goldSilverTotal');
+    if (totalEl) totalEl.textContent = fmtMoney(totalCHF);
+    const infoEl = document.getElementById('goldPriceInfo');
+    if (infoEl) {
+      const gp = goldPricePerGramCHF * rate;
+      const sp = silverPricePerGramCHF * rate;
+      infoEl.textContent = gp > 0 ? 'Gold ' + sym + ' ' + gp.toFixed(2) + '/g  ·  Silver ' + sym + ' ' + sp.toFixed(3) + '/g' : 'Fetching live prices…';
+    }
+    const list = document.getElementById('goldSilverList');
+    if (list) {
+      list.innerHTML = '';
+      items.forEach((it, idx) => {
+        const pCHF = it.metal === 'silver' ? silverPricePerGramCHF : goldPricePerGramCHF;
+        const valCHF = (Number(it.grams) || 0) * pCHF;
+        const row = document.createElement('div');
+        row.className = 'nw-row';
+        row.innerHTML = '<span class="nw-name">' + (it.label || it.metal) + ' (' + it.grams + 'g ' + it.metal + ')</span><span class="nw-amt">' + fmtMoney(valCHF) + '</span>';
+        const del = document.createElement('button'); del.className = 'nw-del'; del.textContent = '×';
+        del.addEventListener('click', () => { items.splice(idx,1); storeSet(GS_KEY, items); renderAllNetWorth(); });
+        row.appendChild(del); list.appendChild(row);
+      });
+    }
+    return totalCHF;
+  }
+  document.getElementById('gsAddBtn') && document.getElementById('gsAddBtn').addEventListener('click', () => {
+    const label = (document.getElementById('gsLabel').value || '').trim();
+    const grams = parseFloat(document.getElementById('gsGrams').value);
+    const metal = document.getElementById('gsMetal').value;
+    if (isNaN(grams) || grams <= 0) { document.getElementById('gsGrams').focus(); return; }
+    const items = storeGet(GS_KEY) || [];
+    items.push({ label: label || metal, grams, metal });
+    storeSet(GS_KEY, items);
+    document.getElementById('gsLabel').value = '';
+    document.getElementById('gsGrams').value = '';
+    renderAllNetWorth();
+  });
+
+  // ── Savings mirror (read-only, excluded from net worth) ──
+  function renderSavingsMirror() {
+    const pots = storeGet('savings:pots') || [];
+    const total = pots.reduce((s, p) => s + (Number(p.saved) || 0), 0);
+    const sym = currencyEl ? currencyEl.value : 'KWD';
+    const rate = exchangeRates[sym] || 1;
+    const el = document.getElementById('savingsMirrorTotal');
+    if (el) el.textContent = sym + ' ' + (total).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  document.getElementById('goToSavingsBtn') && document.getElementById('goToSavingsBtn').addEventListener('click', () => setActiveTab('savings'));
+
+  // ── Finance AI Coach ──
+  const finAiKeyEl = document.getElementById('finAiKey');
+  if (finAiKeyEl) { const k = localStorage.getItem('fin_ai_key'); if (k) finAiKeyEl.value = k; finAiKeyEl.addEventListener('change', () => localStorage.setItem('fin_ai_key', finAiKeyEl.value.trim())); }
+  document.getElementById('finAiBtn') && document.getElementById('finAiBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('finAiBtn');
+    const resp = document.getElementById('finAiResponse');
+    const key = finAiKeyEl ? finAiKeyEl.value.trim() : '';
+    if (!key) { finAiKeyEl && finAiKeyEl.focus(); return; }
+    localStorage.setItem('fin_ai_key', key);
+    btn.disabled = true; btn.textContent = 'Thinking…';
+    resp.style.display = 'block'; resp.textContent = 'Analyzing…';
+    const sym = currencyEl ? currencyEl.value : 'KWD';
+    const rate = exchangeRates[sym] || 1;
+    const cashTxs = storeGet(CASH_KEY) || [];
+    const cashBal = cashTxs.reduce((s, t) => s + (t.type === 'in' ? t.amtCHF : -t.amtCHF), 0) * rate;
+    const savPots = storeGet('savings:pots') || [];
+    const savTotal = savPots.reduce((s, p) => s + (Number(p.saved) || 0), 0);
+    const subs = storeGet('subs') || [];
+    const moSubs = subs.reduce((s, sub) => { let mo = sub.period==='monthly'?Number(sub.amount)||0:sub.period==='yearly'?(Number(sub.amount)||0)/12:sub.period==='weekly'?(Number(sub.amount)||0)*4.33:0; return s + mo/(exchangeRates[sub.currency]||1)*rate; }, 0);
+    const prompt = `You are a financial coach. Snapshot in ${sym}:
+- Cash balance: ${sym} ${cashBal.toFixed(2)}
+- Savings: ${sym} ${savTotal.toFixed(2)} across ${savPots.length} pots (${savPots.map(p=>p.name+(p.target?' target '+p.target:'')).join(', ')||'none'})
+- Monthly subscriptions: ${sym} ${moSubs.toFixed(2)}
+Give 4-5 bullet points of practical money advice: emergency fund, subscription review, savings rate, and one actionable tip. Be concise and encouraging.`;
+    try {
+      const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'}, body: JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,messages:[{role:'user',content:prompt}]})});
+      const d = await r.json();
+      resp.textContent = d.content&&d.content[0] ? d.content[0].text : (d.error?'Error: '+d.error.message:'No response.');
+    } catch(e) { resp.textContent = 'Network error.'; }
+    btn.disabled = false; btn.textContent = 'Get Financial Advice';
+  });
+
   function renderAllNetWorth() {
     let grand = 0;
     const breakdown = [];
     const sliceTotals = {};
-    NW_CATS.forEach(cat => {
-      const sub = renderNetWorthCategory(cat);
-      grand += sub;
-      sliceTotals[cat.key] = sub;
-      if (sub > 0) breakdown.push(cat.key + ': ' + fmtMoney(sub));
-    });
+    // Cash balance
+    const cashTot = renderCashBalance();
+    if (cashTot > 0) { grand += cashTot; sliceTotals['cash'] = cashTot; breakdown.push('cash: ' + fmtMoney(cashTot)); }
+    // Gold & Silver
+    const gsTot = renderGoldSilver();
+    if (gsTot > 0) { grand += gsTot; sliceTotals['gold'] = gsTot; breakdown.push('gold/silver: ' + fmtMoney(gsTot)); }
+    // Savings (excluded from net worth total per user request — shown separately)
+    renderSavingsMirror();
     if (netWorthTotal) netWorthTotal.textContent = fmtMoney(grand);
     if (netWorthBreakdown) netWorthBreakdown.textContent = breakdown.join('  •  ');
     logNetWorthSnapshot(grand);
@@ -2241,11 +2421,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   // Each NW category gets a fixed color; subs get red because outflow.
   // ============================================================
   const NW_SLICE_META = {
-    bank:   { name: 'Bank',     color: '#7DD3FC' },
-    stocks: { name: 'Stocks',   color: '#6EE7B7' },
-    crypto: { name: 'Crypto',   color: '#FBBF24' },
-    other:  { name: 'Other',    color: '#B794F4' },
-    subs:   { name: 'Subs/yr',  color: '#FF8A8A' }
+    cash:    { name: 'Cash',    color: '#7DD3FC' },
+    gold:    { name: 'Gold',    color: '#FBBF24' },
+    savings: { name: 'Savings', color: '#6EE7B7' },
+    other:   { name: 'Other',   color: '#B794F4' },
+    subs:    { name: 'Subs/yr', color: '#FF8A8A' }
   };
   function donutArcPath(cx, cy, rOuter, rInner, startAngle, endAngle) {
     const x1o = cx + rOuter * Math.cos(startAngle);
@@ -3455,6 +3635,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   setInterval(safeRenderTicker, 1500);
 
   // ============================================================
+  // BUSINESS TRACKER
+  // ============================================================
+  const BIZ_KEY = 'biz:transactions';
+  function fmtBiz(n) {
+    const sym = currencyEl ? currencyEl.value : 'KWD';
+    const v = Number(n) || 0;
+    return sym + ' ' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function renderBusiness() {
+    const txs = storeGet(BIZ_KEY) || [];
+    const listEl = document.getElementById('bizTxList');
+    const emptyEl = document.getElementById('bizEmpty');
+    const balEl = document.getElementById('bizBalance');
+    const statsEl = document.getElementById('bizStats');
+    if (!listEl) return;
+    const totalIn = txs.filter(t=>t.type==='in').reduce((s,t)=>s+t.amount,0);
+    const totalOut = txs.filter(t=>t.type==='out').reduce((s,t)=>s+t.amount,0);
+    if (balEl) balEl.textContent = fmtBiz(totalIn - totalOut);
+    if (statsEl) statsEl.textContent = 'Total in: ' + fmtBiz(totalIn) + '  ·  Total out: ' + fmtBiz(totalOut);
+    if (!txs.length) { listEl.innerHTML=''; if(emptyEl) emptyEl.style.display=''; return; }
+    if (emptyEl) emptyEl.style.display = 'none';
+    listEl.innerHTML = '';
+    txs.slice().reverse().forEach((tx, ri) => {
+      const idx = txs.length - 1 - ri;
+      const isIn = tx.type === 'in';
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.cssText = 'margin-bottom:8px;padding:12px 16px;display:flex;align-items:center;gap:12px;border-left:3px solid '+(isIn?'#6ee7b7':'#f87171');
+      const info = document.createElement('div'); info.style.cssText = 'flex:1;min-width:0';
+      info.innerHTML = '<div style="font-size:13px;font-weight:600;color:var(--text-primary)">'+(tx.label||(isIn?'Payment received':'Withdrawal'))+'</div><div style="font-size:11px;color:var(--text-tertiary)">'+tx.date+'</div>';
+      const amt = document.createElement('span');
+      amt.style.cssText = 'font-size:14px;font-weight:700;color:'+(isIn?'#6ee7b7':'#f87171')+';white-space:nowrap;font-variant-numeric:tabular-nums';
+      amt.textContent = (isIn?'+ ':' − ') + fmtBiz(tx.amount);
+      const del = document.createElement('button'); del.textContent='×'; del.style.cssText='background:none;border:none;color:var(--text-tertiary);font-size:16px;cursor:pointer;padding:0 4px;';
+      del.addEventListener('click', ()=>{ const a=storeGet(BIZ_KEY)||[]; a.splice(idx,1); storeSet(BIZ_KEY,a); renderBusiness(); });
+      card.appendChild(info); card.appendChild(amt); card.appendChild(del);
+      listEl.appendChild(card);
+    });
+  }
+  function bizDate() { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  document.getElementById('bizAddInBtn') && document.getElementById('bizAddInBtn').addEventListener('click', ()=>{
+    const label=(document.getElementById('bizClientName').value||'').trim();
+    const amount=parseFloat(document.getElementById('bizInAmount').value);
+    if(isNaN(amount)||amount<=0){document.getElementById('bizInAmount').focus();return;}
+    const a=storeGet(BIZ_KEY)||[]; a.push({type:'in',label,amount,date:bizDate()}); storeSet(BIZ_KEY,a);
+    document.getElementById('bizClientName').value=''; document.getElementById('bizInAmount').value='';
+    renderBusiness();
+  });
+  document.getElementById('bizWithdrawBtn') && document.getElementById('bizWithdrawBtn').addEventListener('click', ()=>{
+    const label=(document.getElementById('bizPayNote').value||'').trim();
+    const amount=parseFloat(document.getElementById('bizOutAmount').value);
+    if(isNaN(amount)||amount<=0){document.getElementById('bizOutAmount').focus();return;}
+    const a=storeGet(BIZ_KEY)||[]; a.push({type:'out',label,amount,date:bizDate()}); storeSet(BIZ_KEY,a);
+    document.getElementById('bizPayNote').value=''; document.getElementById('bizOutAmount').value='';
+    renderBusiness();
+  });
+  ['bizClientName','bizInAmount'].forEach(id => document.getElementById(id) && document.getElementById(id).addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('bizAddInBtn').click(); }));
+  ['bizPayNote','bizOutAmount'].forEach(id => document.getElementById(id) && document.getElementById(id).addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('bizWithdrawBtn').click(); }));
+  renderBusiness();
+
+  // ============================================================
   // SAVINGS POTS
   // ============================================================
   const SAVINGS_KEY = 'savings:pots';
@@ -3622,7 +3863,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof initCloudSync !== 'function') return;
   initCloudSync({
     appKey: 'finance',
-    syncedKeys: ['subs', 'wishlist', 'incoming_orders', 'nw_currency', 'nw:activity', 'nw:history', 'savings:pots'],
+    syncedKeys: ['subs', 'wishlist', 'incoming_orders', 'nw_currency', 'nw:activity', 'nw:history', 'savings:pots', 'nw:cash_txs', 'nw:gold_silver', 'biz:transactions'],
     syncedPrefixes: ['nw:'],
     onApplied: function () { window.dispatchEvent(new Event('storage')); }
   });
