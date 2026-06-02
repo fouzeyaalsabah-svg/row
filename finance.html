@@ -1599,8 +1599,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         <div id="netWorthBreakdown" style="font-size:11px;color:var(--text-tertiary);margin-top:4px"></div>
       </div>
       <div style="display:flex;align-items:center;gap:6px">
-        <span style="font-size:11px;color:var(--text-tertiary)">CHF</span>
+        <span style="font-size:11px;color:var(--text-tertiary)">Currency</span>
         <select id="netWorthCurrency" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:12px;font-family:inherit;cursor:pointer">
+          <option value="KWD">KWD</option>
           <option value="CHF">CHF</option>
           <option value="USD">USD</option>
           <option value="EUR">EUR</option>
@@ -1748,7 +1749,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       <input type="text" placeholder="Service (e.g. Netflix)" id="subName" style="flex:1.5;min-width:120px" />
       <input type="number" placeholder="Amount" id="subAmount" step="0.01" style="flex:1;max-width:100px" />
       <select id="subCurrency" style="padding:6px 10px;border:0.5px solid var(--border);border-radius:var(--radius-md);font-size:12px;font-family:inherit;background:var(--bg-card);color:var(--text-primary);max-width:90px">
-        <option value="CHF">CHF</option>
+        <option value="KWD">KWD</option>
+          <option value="CHF">CHF</option>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="GBP">GBP</option>
@@ -1785,7 +1787,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       <input type="text"   id="ordName"   placeholder="Item (e.g. New iPhone)" class="ord-input ord-input-name">
       <input type="number" id="ordCost"   placeholder="Cost" step="0.01" class="ord-input ord-input-cost">
       <select id="ordCurrency" class="ord-input ord-input-ccy">
-        <option value="CHF">CHF</option>
+        <option value="KWD">KWD</option>
+          <option value="CHF">CHF</option>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="GBP">GBP</option>
@@ -1842,7 +1845,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       <input type="text"   id="wishName"   placeholder="Item name (e.g. New iPhone Pro Max)" class="wish-input wish-input-name">
       <input type="number" id="wishAmount" placeholder="Cost" step="0.01" class="wish-input wish-input-amt">
       <select id="wishCurrency" class="wish-input wish-input-ccy">
-        <option value="CHF">CHF</option>
+        <option value="KWD">KWD</option>
+          <option value="CHF">CHF</option>
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="GBP">GBP</option>
@@ -1864,6 +1868,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   </div>
 </div>
 
+<!-- ===== SAVINGS ===== -->
+<div class="section" data-section="savings">
+  <div class="section-title">
+    <span class="section-title-text">SAVINGS</span>
+  </div>
+
+  <!-- Total saved hero -->
+  <div class="card" style="background:linear-gradient(135deg,rgba(110,231,183,0.07),rgba(125,211,252,0.04));border:1px solid rgba(110,231,183,0.18);margin-bottom:14px">
+    <div style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.04em;font-weight:500;margin-bottom:4px">Total saved</div>
+    <div id="savingsGrandTotal" style="font-size:32px;font-weight:700;color:var(--text-primary);line-height:1.1">KWD 0</div>
+    <div id="savingsPotsCount" style="font-size:11px;color:var(--text-tertiary);margin-top:4px"></div>
+  </div>
+
+  <!-- Add new savings pot -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--text-tertiary);margin-bottom:10px">+ NEW SAVINGS POT</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="text" id="savingsPotName" placeholder="Goal name (e.g. Emergency fund)" style="flex:2;min-width:140px;padding:8px 11px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+      <input type="number" id="savingsPotTarget" placeholder="Target (optional)" step="0.01" style="flex:1;min-width:100px;padding:8px 11px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;">
+      <button id="savingsPotAddBtn" style="padding:8px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.85);background:linear-gradient(180deg,#fff 0%,#e8e5dd 100%);color:#0a0a0b;font-weight:700;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap;">+ Add</button>
+    </div>
+  </div>
+
+  <!-- Pots list -->
+  <div id="savingsPotsList"></div>
+  <div id="savingsEmpty" class="empty-state">No savings pots yet — add one above.</div>
+</div>
+
 </div>
 
 <!-- ===== BOTTOM TAB BAR ===== -->
@@ -1883,6 +1915,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   <button class="bot-tab" data-tab="wish">
     <span class="bot-tab-icon">🎯</span>
     <span class="bot-tab-label">Wishlist</span>
+  </button>
+  <button class="bot-tab" data-tab="savings">
+    <span class="bot-tab-icon">🏦</span>
+    <span class="bot-tab-label">Savings</span>
   </button>
 </nav>
 
@@ -1933,7 +1969,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
   tabs.forEach(b => b.addEventListener('click', () => setActiveTab(b.dataset.tab)));
   const savedTab = storeGet(TAB_KEY);
-  setActiveTab(savedTab && ['net','subs','incoming','wish'].includes(savedTab) ? savedTab : 'net');
+  setActiveTab(savedTab && ['net','subs','incoming','wish','savings'].includes(savedTab) ? savedTab : 'net');
 
   // ============================================================
   // NET WORTH (copied from the main dashboard, verbatim logic)
@@ -1949,13 +1985,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   const netWorthTotal = document.getElementById('netWorthTotal');
   const netWorthBreakdown = document.getElementById('netWorthBreakdown');
 
-  let exchangeRates = { CHF: 1, USD: 1, EUR: 1, GBP: 1 };
+  let exchangeRates = { KWD: 0.305, CHF: 1, USD: 1, EUR: 1, GBP: 1 };
   async function loadExchangeRates() {
     try {
       const res = await fetch('https://open.er-api.com/v6/latest/CHF');
       const data = await res.json();
       if (data && data.rates) {
         exchangeRates = {
+          KWD: data.rates.KWD || 0.305,
           CHF: 1,
           USD: data.rates.USD || 1,
           EUR: data.rates.EUR || 1,
@@ -1969,7 +2006,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   loadExchangeRates();
 
   function fmtMoney(amountCHF) {
-    const symbol = currencyEl ? currencyEl.value : 'CHF';
+    const symbol = currencyEl ? currencyEl.value : 'KWD';
     const rate = exchangeRates[symbol] || 1;
     const num = (Number(amountCHF) || 0) * rate;
     return symbol + ' ' + num.toLocaleString('en-US', { minimumFractionDigits: num % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 });
@@ -1993,8 +2030,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       const amt = document.createElement('span');
       amt.className = 'nw-amt nw-amt-edit';
       amt.textContent = fmtMoney(it.amount);
-      amt.title = 'Tap to edit · type +500 to add, -200 to subtract, or a new total';
+      amt.title = 'Tap to set exact amount';
       amt.addEventListener('click', () => beginNwAmountEdit(amt, items, idx, cat.key));
+      const txBtns = document.createElement('span');
+      txBtns.style.cssText = 'display:inline-flex;gap:3px;flex-shrink:0';
+      const plusBtn = document.createElement('button');
+      plusBtn.textContent = '+'; plusBtn.title = 'Deposit';
+      plusBtn.style.cssText = 'background:rgba(110,231,183,0.12);border:1px solid rgba(110,231,183,0.3);color:#6ee7b7;border-radius:5px;padding:2px 7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;';
+      plusBtn.addEventListener('click', () => beginNwQuickTx(amt, items, idx, cat.key, 'add'));
+      const minusBtn = document.createElement('button');
+      minusBtn.textContent = '−'; minusBtn.title = 'Withdraw';
+      minusBtn.style.cssText = 'background:rgba(248,113,113,0.10);border:1px solid rgba(248,113,113,0.25);color:#f87171;border-radius:5px;padding:2px 7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;';
+      minusBtn.addEventListener('click', () => beginNwQuickTx(amt, items, idx, cat.key, 'sub'));
+      txBtns.appendChild(plusBtn); txBtns.appendChild(minusBtn);
       const del = document.createElement('button'); del.className = 'nw-del'; del.textContent = '×';
       del.addEventListener('click', () => {
         const removed = items[idx];
@@ -2002,7 +2050,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         if (removed) logActivity(cat.key, removed.name, -(Number(removed.amount) || 0), 'delete');
         renderAllNetWorth();
       });
-      row.appendChild(name); row.appendChild(amt); row.appendChild(del);
+      row.appendChild(name); row.appendChild(txBtns); row.appendChild(amt); row.appendChild(del);
       list.appendChild(row);
     });
     document.getElementById(cat.totalId).textContent = fmtMoney(total);
@@ -2011,7 +2059,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   function beginNwAmountEdit(amtEl, items, idx, catKey) {
     if (amtEl.querySelector('input')) return;
-    const symbol = currencyEl ? currencyEl.value : 'CHF';
+    const symbol = currencyEl ? currencyEl.value : 'KWD';
     const rate = exchangeRates[symbol] || 1;
     const curCHF = Number(items[idx].amount) || 0;
     const curDisplay = curCHF * rate;
@@ -2044,6 +2092,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       storeSet('nw:' + catKey, items);
       if (Math.abs(deltaCHF) > 0.005) {
         logActivity(catKey, items[idx].name, deltaCHF, 'edit');
+      }
+      renderAllNetWorth();
+    }
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); save(); }
+      else if (e.key === 'Escape') { saved = true; renderAllNetWorth(); }
+    });
+    input.addEventListener('blur', save);
+  }
+  function beginNwQuickTx(amtEl, items, idx, catKey, mode) {
+    if (amtEl.querySelector('input')) return;
+    const symbol = currencyEl ? currencyEl.value : 'KWD';
+    const rate = exchangeRates[symbol] || 1;
+    const curCHF = Number(items[idx].amount) || 0;
+    const input = document.createElement('input');
+    input.type = 'number'; input.inputMode = 'decimal'; input.min = '0'; input.step = '0.01';
+    input.placeholder = mode === 'add' ? 'Deposit amount' : 'Withdraw amount';
+    input.style.cssText = 'width:110px;padding:4px 8px;font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,0.30);border:1px solid rgba(255,255,255,0.10);color:var(--text-primary);border-radius:6px;text-align:right;font-variant-numeric:tabular-nums;outline:none;';
+    amtEl.textContent = '';
+    amtEl.appendChild(input);
+    setTimeout(() => { input.focus(); }, 0);
+    let saved = false;
+    function save() {
+      if (saved) return; saved = true;
+      const v = parseFloat(input.value);
+      if (!isNaN(v) && v > 0) {
+        const deltaCHF = (mode === 'add' ? v : -v) / rate;
+        const nextCHF = Math.max(0, curCHF + deltaCHF);
+        items[idx].amount = nextCHF;
+        storeSet('nw:' + catKey, items);
+        logActivity(catKey, items[idx].name, nextCHF - curCHF, 'edit');
       }
       renderAllNetWorth();
     }
@@ -2393,7 +2472,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       // Interpret the input in the CURRENTLY SELECTED display currency, then
       // convert to CHF for storage. So if USD is selected and user types 40000,
       // we store 40000 / USD-per-CHF rate — 31,400 CHF; displays as $40,000.
-      const symbol = currencyEl ? currencyEl.value : 'CHF';
+      const symbol = currencyEl ? currencyEl.value : 'KWD';
       const rate = exchangeRates[symbol] || 1;
       const amountCHF = a / rate;
       const items = storeGet('nw:' + cat.key) || [];
@@ -2410,7 +2489,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   if (currencyEl) {
     const savedCur = storeGet(CURRENCY_KEY);
-    if (savedCur) currencyEl.value = savedCur;
+    currencyEl.value = savedCur || 'KWD';
     currencyEl.addEventListener('change', () => {
       storeSet(CURRENCY_KEY, currencyEl.value);
       renderAllNetWorth();
@@ -3375,6 +3454,167 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   safeRenderTicker();
   setInterval(safeRenderTicker, 1500);
 
+  // ============================================================
+  // SAVINGS POTS
+  // ============================================================
+  const SAVINGS_KEY = 'savings:pots';
+
+  function loadSavingsPots() {
+    return storeGet(SAVINGS_KEY) || [];
+  }
+  function saveSavingsPots(pots) {
+    storeSet(SAVINGS_KEY, pots);
+  }
+  function savingsSymbol() {
+    return (currencyEl ? currencyEl.value : 'KWD');
+  }
+  function fmtSavings(amountNative) {
+    const sym = savingsSymbol();
+    const n = Number(amountNative) || 0;
+    return sym + ' ' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 });
+  }
+
+  function renderSavings() {
+    const pots = loadSavingsPots();
+    const listEl = document.getElementById('savingsPotsList');
+    const emptyEl = document.getElementById('savingsEmpty');
+    const grandEl = document.getElementById('savingsGrandTotal');
+    const countEl = document.getElementById('savingsPotsCount');
+    if (!listEl) return;
+
+    const grand = pots.reduce((s, p) => s + (Number(p.saved) || 0), 0);
+    if (grandEl) grandEl.textContent = fmtSavings(grand);
+    if (countEl) countEl.textContent = pots.length + ' pot' + (pots.length !== 1 ? 's' : '');
+
+    if (!pots.length) {
+      listEl.innerHTML = '';
+      if (emptyEl) emptyEl.style.display = '';
+      return;
+    }
+    if (emptyEl) emptyEl.style.display = 'none';
+
+    listEl.innerHTML = '';
+    pots.forEach((pot, idx) => {
+      const saved = Number(pot.saved) || 0;
+      const target = Number(pot.target) || 0;
+      const pct = target > 0 ? Math.min(100, (saved / target) * 100) : 0;
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.cssText = 'margin-bottom:12px;padding:16px 18px';
+
+      const header = document.createElement('div');
+      header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px';
+
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = pot.name;
+      nameSpan.style.cssText = 'font-size:14px;font-weight:700;color:var(--text-primary);flex:1;min-width:0';
+
+      const savedSpan = document.createElement('span');
+      savedSpan.style.cssText = 'font-size:14px;font-weight:700;color:#6ee7b7;font-variant-numeric:tabular-nums;white-space:nowrap';
+      savedSpan.textContent = fmtSavings(saved);
+
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '×';
+      delBtn.style.cssText = 'background:none;border:none;color:var(--text-tertiary);font-size:16px;cursor:pointer;padding:0 4px;line-height:1;';
+      delBtn.title = 'Delete pot';
+      delBtn.addEventListener('click', () => {
+        if (!confirm('Delete "' + pot.name + '"?')) return;
+        const p2 = loadSavingsPots();
+        p2.splice(idx, 1);
+        saveSavingsPots(p2);
+        renderSavings();
+      });
+
+      header.appendChild(nameSpan);
+      header.appendChild(savedSpan);
+      header.appendChild(delBtn);
+
+      // Progress bar (only if target set)
+      let barHtml = '';
+      if (target > 0) {
+        barHtml = '<div style="height:4px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden;margin-bottom:6px"><div style="height:100%;width:' + pct.toFixed(1) + '%;background:#6ee7b7;border-radius:999px;transition:width 0.4s"></div></div>' +
+          '<div style="font-size:11px;color:var(--text-tertiary);margin-bottom:10px">' + fmtSavings(saved) + ' of ' + fmtSavings(target) + ' · ' + pct.toFixed(0) + '%</div>';
+      }
+
+      // History (last 5 entries)
+      const history = pot.history || [];
+      const recentHtml = history.length ? '<div style="margin-bottom:10px;display:flex;flex-direction:column;gap:4px">' + history.slice(-5).reverse().map(h => {
+        const sign = h.amount >= 0 ? '+' : '−';
+        const col = h.amount >= 0 ? '#6ee7b7' : '#f87171';
+        return '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-tertiary)">' +
+          '<span>' + h.date + (h.note ? ' · ' + h.note : '') + '</span>' +
+          '<span style="color:' + col + ';font-weight:700;font-variant-numeric:tabular-nums">' + sign + ' ' + fmtSavings(Math.abs(h.amount)) + '</span>' +
+          '</div>';
+      }).join('') + '</div>' : '';
+
+      // Add / deduct row
+      const txRow = document.createElement('div');
+      txRow.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap';
+      const txInput = document.createElement('input');
+      txInput.type = 'number'; txInput.placeholder = 'Amount'; txInput.min = '0'; txInput.step = '0.01';
+      txInput.style.cssText = 'flex:1;min-width:80px;padding:7px 10px;border-radius:9px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;';
+      const noteInput = document.createElement('input');
+      noteInput.type = 'text'; noteInput.placeholder = 'Note (optional)';
+      noteInput.style.cssText = 'flex:2;min-width:100px;padding:7px 10px;border-radius:9px;border:1px solid var(--border);background:rgba(0,0,0,0.28);color:var(--text-primary);font-family:inherit;font-size:13px;';
+      const addBtn = document.createElement('button');
+      addBtn.textContent = '+ Deposit';
+      addBtn.style.cssText = 'padding:7px 12px;border-radius:9px;background:rgba(110,231,183,0.12);border:1px solid rgba(110,231,183,0.3);color:#6ee7b7;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap';
+      const subBtn = document.createElement('button');
+      subBtn.textContent = '− Withdraw';
+      subBtn.style.cssText = 'padding:7px 12px;border-radius:9px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25);color:#f87171;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap';
+
+      function doTx(sign) {
+        const amt = parseFloat(txInput.value);
+        if (isNaN(amt) || amt <= 0) { txInput.focus(); return; }
+        const pots2 = loadSavingsPots();
+        const p = pots2[idx];
+        if (!p) return;
+        const delta = sign === 1 ? amt : -amt;
+        p.saved = Math.max(0, (Number(p.saved) || 0) + delta);
+        if (!p.history) p.history = [];
+        const today = new Date();
+        const dk = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+        p.history.push({ date: dk, amount: delta, note: noteInput.value.trim() });
+        saveSavingsPots(pots2);
+        txInput.value = ''; noteInput.value = '';
+        renderSavings();
+      }
+      addBtn.addEventListener('click', () => doTx(1));
+      subBtn.addEventListener('click', () => doTx(-1));
+      txInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doTx(1); });
+
+      txRow.appendChild(txInput);
+      txRow.appendChild(noteInput);
+      txRow.appendChild(addBtn);
+      txRow.appendChild(subBtn);
+
+      card.innerHTML = '';
+      card.appendChild(header);
+      card.insertAdjacentHTML('beforeend', barHtml + recentHtml);
+      card.appendChild(txRow);
+      listEl.appendChild(card);
+    });
+  }
+
+  // Add new pot
+  document.getElementById('savingsPotAddBtn').addEventListener('click', () => {
+    const name = (document.getElementById('savingsPotName').value || '').trim();
+    if (!name) { document.getElementById('savingsPotName').focus(); return; }
+    const target = parseFloat(document.getElementById('savingsPotTarget').value) || 0;
+    const pots = loadSavingsPots();
+    pots.push({ name, target, saved: 0, history: [] });
+    saveSavingsPots(pots);
+    document.getElementById('savingsPotName').value = '';
+    document.getElementById('savingsPotTarget').value = '';
+    renderSavings();
+  });
+  document.getElementById('savingsPotName').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('savingsPotAddBtn').click();
+  });
+
+  renderSavings();
+
 })();
 </script>
 <script>
@@ -3382,7 +3622,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof initCloudSync !== 'function') return;
   initCloudSync({
     appKey: 'finance',
-    syncedKeys: ['subs', 'wishlist', 'incoming_orders', 'nw_currency', 'nw:activity', 'nw:history'],
+    syncedKeys: ['subs', 'wishlist', 'incoming_orders', 'nw_currency', 'nw:activity', 'nw:history', 'savings:pots'],
     syncedPrefixes: ['nw:'],
     onApplied: function () { window.dispatchEvent(new Event('storage')); }
   });
