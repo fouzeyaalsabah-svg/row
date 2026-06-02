@@ -240,7 +240,7 @@ body.topbar-modal-open { overflow: hidden; touch-action: none; }
     else if (state.unit === 'oz') unitVol = 30;
     else if (state.unit === 'ml') unitVol = 1;
     else unitVol = state.bottleMl || 500;
-    const total = Math.max(1, Math.ceil(totalMl / unitVol));
+    const total = 2250;
     return { done, total };
   }
   function classifyStatus(done, total) {
