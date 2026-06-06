@@ -2387,7 +2387,7 @@ Give 4-5 bullet points of practical money advice: emergency fund, subscription r
     const empty = document.getElementById('nwActivityEmpty');
     const count = document.getElementById('nwActivityCount');
     if (!list) return;
-    const arr = (storeGet(ACTIVITY_KEY) || []).slice().sort((a, b) => b.ts - a.ts);
+    const arr = (storeGet(ACTIVITY_KEY) || []).filter(e => e.cat !== 'stocks' && e.cat !== 'crypto' && e.cat !== 'other' && e.cat !== 'gold' && e.cat !== 'silver').slice().sort((a, b) => b.ts - a.ts);
     if (!arr.length) {
       list.classList.add('hidden');
       empty.classList.remove('hidden');
